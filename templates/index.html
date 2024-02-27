@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Restaurant Generator</title>
+    <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>Random Restaurant Generator</h1>
+    <form action="/restaurant">
+        <input type="text" name="Location" id="location" placeholder="Enter Location" />
+        <div class="slider">
+            <label for="fader">Distance </label>
+            <input type="range" min="5" max="30" value="15" name="Radius" id="radius" step="5" list="distance"
+                oninput="updateRangeValue(this.value)">
+            <datalist id="distance">
+                <option>0</option>
+                <option>20</option>
+                <option>40</option>
+                <option>60</option>
+                <option>80</option>
+                <option>100</option>
+            </datalist>
+            <p id="rangeValue">15</p>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function updateRangeValue(value) {
+            document.getElementById('rangeValue').innerText = value;
+        }
+    </script>
+
+</body>
+
+</html>
