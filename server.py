@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from restaurant import get_restaurants, pick_random_restaurant, miles_to_meters
-#from waitress import serve
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -24,5 +24,5 @@ def get_restaurant():
     )
 
 if __name__ == "__main__":
-    app.run()
+    serve(app, host="0.0.0.0", port=8000)
 
