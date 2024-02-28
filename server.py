@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from restaurant import get_restaurants, pick_random_restaurant, miles_to_meters, get_longitute_latitude, get_zip_code
 from waitress import serve
-import geocoder
 import requests
 
 app = Flask(__name__)
