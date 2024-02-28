@@ -13,4 +13,4 @@ urllib3==2.2.1
 # vboxapi==1.0
 waitress==3.0.0
 Werkzeug==3.0.1
-Python 3.11.0
+geocoder==1.38.1
