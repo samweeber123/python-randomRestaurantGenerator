@@ -4,14 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} Restaurants</title>
+    <title>Random Restaurant Generator</title>
     <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet" />
 </head>
 
 <body>
     <h1>Random Restaurant Generator</h1>
     <form action="/restaurant">
-        <input type="text" name="Location" id="location" placeholder="Enter Location" />
+        <div>
+            <input type="text" name="Location" id="location" placeholder="Enter Location" />
+        </div>
+        <div>
+            <input type="checkbox" id="useCurrentLocation" onchange="toggleTextBox()">
+            <label for="useCurrentLocation">Use Current Location</label>
+        </div>
         <div class="slider">
             <label for="fader">Distance </label>
             <input type="range" min="5" max="30" value="15" name="Radius" id="radius" step="5" list="distance"
@@ -30,9 +36,25 @@
         <h1>{{ title }}</h1>
         <p>{{ random_restaurant }}</p>
     </form>
+
     <script>
         function updateRangeValue(value) {
             document.getElementById('rangeValue').innerText = value;
+        }
+        function toggleTextBox() {
+            var locationInput = document.getElementById('location');
+            var useCurrentLocationCheckbox = document.getElementById('useCurrentLocation');
+            if (useCurrentLocationCheckbox.checked) {
+                locationInput.disabled = true;
+                fetch('/get_current_location')
+                    .then(response => response.text())
+                    .then(data => {
+                        locationInput.value = data;
+                        locationInput.disabled = true; // Disable the input after setting the value
+                    });
+            } else {
+                locationInput.disabled = false;
+            }
         }
     </script>
 
