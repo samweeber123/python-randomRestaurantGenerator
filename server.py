@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from restaurant import get_restaurants, pick_random_restaurant, miles_to_meters, get_longitute_latitude, get_zip_code
-#from waitress import serve
+from waitress import serve
 import geocoder
 import requests
 
@@ -36,6 +36,6 @@ def get_current_location():
     return str(zip_code)
 
 if __name__ == "__main__":
-    #serve(app, host="0.0.0.0", port=8000)
-    app.run(debug=True)
+    serve(app, host="0.0.0.0", port=8000)
+    #app.run(debug=True)
 
