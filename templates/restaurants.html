@@ -15,42 +15,47 @@
             <input type="text" name="Location" id="location" placeholder="Enter Location" />
         </div>
         <div>
+            <input type="text" name="Keyword" id="keyword" placeholder="Keyword (Optional)" />
+        </div>
+        <div>
             <input type="checkbox" id="useCurrentLocation" onchange="toggleTextBox()">
             <label for="useCurrentLocation">Use Current Location</label>
         </div>
         <div class="slider long-slider">
-            <input type="range" min="2" max="24" value="2" name="Radius" id="radius" step="2" list="distance"
-                oninput="updateRangeValue(this.value)">
+            <input type="range" min="0" max="30" value="0" name="Radius" id="radius" step="5" list="distance"
+                oninput="updateRangeValue(this)">
             <datalist id="distance">
-                <option>2</option>
-                <option>4</option>
-                <option>6</option>
-                <option>8</option>
-                <option>10</option>
-                <option>12</option>
-                <option>14</option>
-                <option>16</option>
-                <option>18</option>
-                <option>20</option>
-                <option>22</option>
-                <option>24</option>
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+
             </datalist>
             <label for="fader">Distance </label>
-            <p id="rangeValue">2</p>
+            <p id="rangeValue">1</p>
         </div>
         <button type="submit">Submit</button>
-       
-    </form>
 
+    </form>
     <h1>{{ title }}</h1>
     <p>{{ random_restaurant }}</p>
     <p>Rating: {{ rating }}</p>
-    <p>Location: <a href="https://www.google.com/maps/search/?api=1&query={{ location }}" target="_blank">{{ location }}</a></p>
+    <p>Location: {{ location }}</p>
+    <p><a href="https://www.google.com/maps/search/?api=1&query={{ location }}" target="_blank">Google Maps</a></p>
+    <a href="http://maps.apple.com/?q={{ location }}" target="_blank">Apple Maps</a>
 
 
     <script>
-        function updateRangeValue(value) {
-            document.getElementById('rangeValue').innerText = value;
+        function updateRangeValue(slider) {
+            var optionValues = Array.from(slider.list.options).map(option => parseFloat(option.value));
+            var nearestValue = optionValues.reduce(function (prev, curr) {
+                return (Math.abs(curr - slider.value) < Math.abs(prev - slider.value) ? curr : prev);
+            });
+            slider.value = nearestValue;
+            document.getElementById('rangeValue').innerText = nearestValue;
         }
         function toggleTextBox() {
             var locationInput = document.getElementById('location');

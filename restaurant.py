@@ -28,7 +28,7 @@ def get_coordinates(location):
         print("Error getting coordinates:", data.get("error_message", "Unknown error"))
         return None
 
-def get_restaurants(location, radius):
+def get_restaurants(location, radius, keyword=None):
     # Get coordinates from location name
     coordinates = get_coordinates(location)
     if coordinates is None:
@@ -41,6 +41,9 @@ def get_restaurants(location, radius):
         "type": "restaurant",
         "key": os.getenv("GOOGLE_MAPS_API_KEY")
     }
+
+    if keyword:
+        params["keyword"] = keyword
 
     response = requests.get(url, params=params)
     data = response.json()
@@ -68,7 +71,9 @@ if __name__ == "__main__":
     location = input()
     print("Enter the radius in miles:")
     radius = miles_to_meters(int(input()))
-    name, rating, location = pick_random_restaurant(get_restaurants(location, radius))
+    print("Enter a keyword:")
+    keyword = input()
+    name, rating, location = pick_random_restaurant(get_restaurants(location, radius, keyword))
     print("Random Restaurant:")
     print("Name:", name)
     print("Rating:", rating)
