@@ -1,80 +1,75 @@
-from dotenv import load_dotenv
-from pprint import pprint
-import requests
 import os
 import random
-import geocoder
+import requests
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
 def miles_to_meters(miles):
     return miles * 1609
 
-def get_longitute_latitude():
-    g = geocoder.ip('me')
-    latitude = g.latlng[0]
-    longitude = g.latlng[1]
-    return latitude, longitude
+def get_coordinates(location):
+    # Using Google Geocoding API to get coordinates from location name
+    url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": location,
+        "key": os.getenv("GOOGLE_MAPS_API_KEY")
+    }
 
-latitude, longitude = get_longitute_latitude()
-
-#OpenCage API
-def get_zip_code(latitude, longitude):
-    API_KEY = os.getenv('OPENCAGE_API_KEY')
-    url = f'https://api.opencagedata.com/geocode/v1/json?q={latitude}+{longitude}&key={API_KEY}'
-    response = requests.get(url)
+    response = requests.get(url, params=params)
     data = response.json()
-    if data['results']:
-        components = data['results'][0]['components']
-        zip_code = components.get('postcode')
-        return zip_code
-    else:
-        return None
-    
-zip_code = get_zip_code(latitude,longitude)
 
+    if data["status"] == "OK":
+        # Extracting latitude and longitude from the response
+        lat_lng = data["results"][0]["geometry"]["location"]
+        return f"{lat_lng['lat']},{lat_lng['lng']}"
+    else:
+        print("Error getting coordinates:", data.get("error_message", "Unknown error"))
+        return None
 
 def get_restaurants(location, radius):
-    url = "https://api.yelp.com/v3/businesses/search"
-    headers = {
-        "Authorization": f"Bearer {os.getenv('API_KEY')}"
-    }
-    params = {
-        "location": location,
-        "radius": radius,
-        "categories": "food,restaurants,bars,breakfast_brunch,lunch,dinner"
-    }
-
-    response = requests.get(url, headers=headers, params=params)
-    data = response.json()
-
-    if "error" in data:
-        print("Error:", data["error"]["description"])
+    # Get coordinates from location name
+    coordinates = get_coordinates(location)
+    if coordinates is None:
         return None
 
-    return data.get("businesses", [])
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    params = {
+        "location": coordinates,
+        "radius": radius,
+        "type": "restaurant",
+        "key": os.getenv("GOOGLE_MAPS_API_KEY")
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    restaurants = []
+    for result in data.get("results", []):
+        restaurant_info = {
+            "name": result["name"],
+            "rating": result.get("rating", "Rating not available"),
+            "location": result["vicinity"]
+        }
+        restaurants.append(restaurant_info)
+
+    return restaurants
 
 def pick_random_restaurant(restaurants):
     if restaurants:
         random_restaurant = random.choice(restaurants)
-        return random_restaurant["name"]
+        return random_restaurant["name"], random_restaurant["rating"], random_restaurant["location"]
     else:
-        return "No restaurants found."
-    
-if __name__ == "__main__" :
+        return "No restaurants found.", "", ""
 
-    use_current_location = input("Do you want to use your current location? (y/n): ").lower()
-    if use_current_location == "y":
-        location = str(zip_code)
-    else:
-        location = input("Enter the location: ")
-        if not bool(location.strip()):
-            location = "London"
-    radius = int(input("Enter the radius in miles: "))
-    
-    
-    restaurants = get_restaurants(location, miles_to_meters(radius))
-    random_restaurant = pick_random_restaurant(restaurants)
-    pprint(random_restaurant)
-    pprint(location)
-    
+if __name__ == "__main__":
+    print("Enter your location (latitude,longitude or location name):")
+    location = input()
+    print("Enter the radius in miles:")
+    radius = miles_to_meters(int(input()))
+    name, rating, location = pick_random_restaurant(get_restaurants(location, radius))
+    print("Random Restaurant:")
+    print("Name:", name)
+    print("Rating:", rating)
+    print("Location:", location)

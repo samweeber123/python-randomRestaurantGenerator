@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request, jsonify
-from restaurant import get_restaurants, pick_random_restaurant, miles_to_meters, get_longitute_latitude, get_zip_code
+from flask import Flask, render_template, request
+from restaurant import get_restaurants, pick_random_restaurant, miles_to_meters
 from waitress import serve
-#import geocoder
 
 app = Flask(__name__)
 
@@ -13,22 +12,16 @@ def index():
 @app.route('/restaurant')
 def get_restaurant():
     location = request.args.get('Location')  
-    radius_in_meters = int(request.args.get('Radius'))
-    radius = miles_to_meters(radius_in_meters)
+    radius_in_miles = int(request.args.get('Radius'))
+    radius = miles_to_meters(radius_in_miles)
     restaurants = get_restaurants(location, radius)
-    random_restaurant = pick_random_restaurant(restaurants)
+    random_restaurant_name, rating, restaurant_location = pick_random_restaurant(restaurants)
     return render_template(
         "restaurants.html",
-        title=random_restaurant,
+        title=random_restaurant_name,
+        rating=rating,
+        location=restaurant_location
     )
-
-# @app.route('/get_current_location', methods=['GET'])
-# def get_current_location():
-#     g = geocoder.ip('me')
-#     latitude = g.latlng[0]
-#     longitude = g.latlng[1]
-#     zip_code = get_zip_code(latitude, longitude)
-#     return str(zip_code)
 
 if __name__ == "__main__":
     #app.run(debug=True)
