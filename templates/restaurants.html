@@ -18,19 +18,25 @@
             <input type="checkbox" id="useCurrentLocation" onchange="toggleTextBox()">
             <label for="useCurrentLocation">Use Current Location</label>
         </div>
-        <div class="slider">
-            <label for="fader">Distance </label>
-            <input type="range" min="5" max="30" value="15" name="Radius" id="radius" step="5" list="distance"
+        <div class="slider long-slider">
+            <input type="range" min="2" max="24" value="2" name="Radius" id="radius" step="2" list="distance"
                 oninput="updateRangeValue(this.value)">
             <datalist id="distance">
-                <option>0</option>
+                <option>2</option>
+                <option>4</option>
+                <option>6</option>
+                <option>8</option>
+                <option>10</option>
+                <option>12</option>
+                <option>14</option>
+                <option>16</option>
+                <option>18</option>
                 <option>20</option>
-                <option>40</option>
-                <option>60</option>
-                <option>80</option>
-                <option>100</option>
-            </datalist>
-            <p id="rangeValue">15</p>
+                <option>22</option>
+                <option>24</option>
+            </datalist> 
+            <label for="fader">Distance </label>
+            <p id="rangeValue">2</p>
         </div>
         <button type="submit">Submit</button>
         <h1>{{ title }}</h1>
@@ -45,15 +51,14 @@
             var locationInput = document.getElementById('location');
             var useCurrentLocationCheckbox = document.getElementById('useCurrentLocation');
             if (useCurrentLocationCheckbox.checked) {
-                locationInput.disabled = true;
-                fetch('/get_current_location')
-                    .then(response => response.text())
-                    .then(data => {
-                        locationInput.value = data;
-                        locationInput.disabled = true; // Disable the input after setting the value
-                    });
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    locationInput.value = position.coords.latitude + ", " + position.coords.longitude;
+                    locationInput.classList.add('readonly-input'); // Add the CSS class
+                    // Submit the form
+                    //document.querySelector('form').submit();
+                });
             } else {
-                locationInput.disabled = false;
+                locationInput.classList.remove('readonly-input'); // Remove the CSS class
             }
         }
     </script>

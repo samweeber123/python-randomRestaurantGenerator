@@ -16,7 +16,8 @@ body {
     font-size: 2rem;
 }
 
-input, button {
+input,
+button {
     font-size: 2rem;
     padding: 1rem;
     border-radius: 10px;
@@ -26,3 +27,30 @@ input, button {
     font-family: "Open Sans";
     src: url();
 }
+
+.readonly-input {
+    background-color: #808080;
+    /* Grey background */
+    pointer-events: none;
+    /* Disable pointer events */
+}
+
+.long-slider input[type=range] {
+    width: 80%;
+    /* Adjust the width as needed */
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .range-value-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .range-value-container p {
+    margin-right: 10px; /* Adjust the margin as needed */
+  }

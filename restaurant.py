@@ -42,7 +42,7 @@ def get_restaurants(location, radius):
     params = {
         "location": location,
         "radius": radius,
-        "categories": "restaurants"
+        "categories": "food,restaurants,bars,breakfast_brunch,lunch,dinner"
     }
 
     response = requests.get(url, headers=headers, params=params)
