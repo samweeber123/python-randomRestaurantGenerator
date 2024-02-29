@@ -22,10 +22,9 @@
             <label for="useCurrentLocation">Use Current Location</label>
         </div>
         <div class="slider long-slider">
-            <input type="range" min="0" max="30" value="0" name="Radius" id="radius" step="5" list="distance"
+            <input type="range" min="5" max="30" value="0" name="Radius" id="radius" step="5" list="distance"
                 oninput="updateRangeValue(this)">
             <datalist id="distance">
-                <option value="1">1</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
@@ -34,7 +33,7 @@
                 <option value="30">30</option>
             </datalist>
             <label for="fader">Distance </label>
-            <p id="rangeValue">1</p>
+            <p id="rangeValue">5</p>
         </div>
         <button type="submit">Submit</button>
     </form>
