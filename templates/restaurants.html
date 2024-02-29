@@ -32,21 +32,18 @@
                 <option value="20">20</option>
                 <option value="25">25</option>
                 <option value="30">30</option>
-
             </datalist>
             <label for="fader">Distance </label>
             <p id="rangeValue">1</p>
         </div>
         <button type="submit">Submit</button>
-
     </form>
     <h1>{{ title }}</h1>
-    <p>{{ random_restaurant }}</p>
+    <!-- <p>{{ random_restaurant }}</p> -->
     <p>Rating: {{ rating }}</p>
     <p>Location: {{ location }}</p>
-    <p><a href="https://www.google.com/maps/search/?api=1&query={{ location }}" target="_blank">Google Maps</a></p>
-    <a href="http://maps.apple.com/?q={{ location }}" target="_blank">Apple Maps</a>
-
+    <p><a href="http://maps.google.com/?q={{ title }} {{ location }}" target="_blank">Google Maps</a></p>
+    <a href="http://maps.apple.com/?q={{ location }} {{ title }}" target="_blank">Apple Maps</a>
 
     <script>
         function updateRangeValue(slider) {
