@@ -17,7 +17,7 @@ def get_restaurant():
     keyword = request.args.get('Keyword')
     price_preference = request.args.get('Price')  # Get the price preference from the request
     if price_preference:
-        price_preference = int(price_preference)
+        price_preference = price_preference
     else:
         price_preference = None
     restaurants = get_restaurants(location, radius, keyword=keyword, price=price_preference)  # Pass the price preference to the get_restaurants function
@@ -30,5 +30,5 @@ def get_restaurant():
     )
 
 if __name__ == "__main__":
-    #app.run(debug=True)
-    serve(app, host="0.0.0.0", port=8000)
+    app.run(debug=True)
+    #serve(app, host="0.0.0.0", port=8000)

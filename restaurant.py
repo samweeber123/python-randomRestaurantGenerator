@@ -46,8 +46,12 @@ def get_restaurants(location, radius, keyword=None, price=None):
         params["keyword"] = keyword
     
     if price is not None:
-        params["minprice"] = price
-        params["maxprice"] = price
+        if price == "Cheap":
+            params["minprice"] = 0
+            params["maxprice"] = 2
+        elif price == "Expensive":
+            params["minprice"] = 3
+            params["maxprice"] = 4
 
     response = requests.get(url, params=params)
     data = response.json()
@@ -77,14 +81,8 @@ if __name__ == "__main__":
     radius = miles_to_meters(int(input()))
     print("Enter a keyword:")
     keyword = input()
-    print("Enter your price preference (0: Free, 1: Inexpensive, 2: Moderate, 3: Expensive, 4: Very Expensive, or press Enter for all):")
-    price_preference = input()
-    if price_preference:
-        price_preference = int(price_preference)
-    else:
-        price_preference = None
-    name, rating, location = pick_random_restaurant(get_restaurants(location, radius, keyword, price_preference))
-    print("Random Restaurant:")
-    print("Name:", name)
-    print("Rating:", rating)
-    print("Location:", location)
+    print("Enter your price preference (Cheap or Expensive):")
+    price_preference = input().capitalize()  # Capitalize to handle case-insensitivity
+    json_response = get_restaurants(location, radius, keyword, price_preference)
+    print("JSON Response:")
+    print(json_response)
