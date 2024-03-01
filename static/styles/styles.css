@@ -44,13 +44,23 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .range-value-container {
+}
+
+.range-value-container {
     display: flex;
     align-items: center;
-  }
-  
-  .range-value-container p {
-    margin-right: 10px; /* Adjust the margin as needed */
-  }
+}
+
+.range-value-container p {
+    margin-right: 10px;
+    /* Adjust the margin as needed */
+}
+
+.img-logo {
+    width: 512px;
+    height: 512px;
+    background-image:url(../img/Designer.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    
+}

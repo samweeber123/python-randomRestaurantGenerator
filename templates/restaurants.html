@@ -8,7 +8,7 @@
     <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet" />
 </head>
 
-<body>
+<body onload="restoreFormInputs(); toggleTextBox()">
     <h1>Random Restaurant Generator</h1>
     <form action="/restaurant">
         <div>
@@ -43,9 +43,9 @@
                 <option value="30">30</option>
             </datalist>
             <label for="fader">Distance </label>
-            <p id="rangeValue">5</p>
+            <p id="rangeValue">0</p>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Generate</button>
     </form>
     <h1>{{ title }}</h1>
     <!-- <p>{{ random_restaurant }}</p> -->
@@ -53,6 +53,7 @@
     <p>Location: {{ location }}</p>
     <p><a href="http://maps.google.com/?q={{ title }} {{ location }}" target="_blank">Google Maps</a></p>
     <a href="http://maps.apple.com/?q={{ location }} {{ title }}" target="_blank">Apple Maps</a>
+
 
     <script>
         function updateRangeValue(slider) {
@@ -62,7 +63,9 @@
             });
             slider.value = nearestValue;
             document.getElementById('rangeValue').innerText = nearestValue;
+            saveFormInputs(); // Save form inputs after updating slider value
         }
+
         function toggleTextBox() {
             var locationInput = document.getElementById('location');
             var useCurrentLocationCheckbox = document.getElementById('useCurrentLocation');
@@ -76,7 +79,40 @@
             } else {
                 locationInput.classList.remove('readonly-input'); // Remove the CSS class
             }
+            saveFormInputs(); // Save form inputs after updating checkbox state
         }
+
+        function saveFormInputs() {
+            var inputsToSave = ['location', 'keyword', 'price', 'radius', 'useCurrentLocation'];
+            inputsToSave.forEach(function (inputId) {
+                var inputElement = document.getElementById(inputId);
+                if (inputElement.type === 'checkbox') {
+                    localStorage.setItem(inputId, inputElement.checked);
+                } else {
+                    localStorage.setItem(inputId, inputElement.value);
+                }
+            });
+        }
+
+        function restoreFormInputs() {
+            var inputsToRestore = ['location', 'keyword', 'price', 'radius', 'useCurrentLocation'];
+            inputsToRestore.forEach(function (inputId) {
+                var storedValue = localStorage.getItem(inputId);
+                if (storedValue !== null) {
+                    var inputElement = document.getElementById(inputId);
+                    if (inputElement.type === 'checkbox') {
+                        inputElement.checked = (storedValue === "true");
+                    } else {
+                        inputElement.value = storedValue;
+                    }
+                }
+            });
+            var slider = document.getElementById('radius');
+            var initialValue = slider.value; // Get initial value of the slider
+            document.getElementById('rangeValue').innerText = initialValue; // Set initial value of the rangeValue
+        }
+        
+        window.addEventListener('beforeunload', saveFormInputs); // Save form inputs before unloading the page
     </script>
 
 </body>
