@@ -14,13 +14,81 @@ body {
     align-items: center;
     gap: 2rem;
     font-size: 2rem;
+    color: white;
 }
 
-input,
+
 button {
     font-size: 2rem;
     padding: 1rem;
     border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+input[type=text] {
+    display: block;
+    margin: 0 auto 10px;
+    /* Center horizontally and add bottom margin */
+    padding: 12px 20px;
+    background-color: #444;
+    /*slighly darker than body background*/
+    color: white;
+    width: 50%;
+    /* Adjust the width as needed */
+    text-align: center;
+    border-radius: 10px;
+    /* Round the corners */
+    border: none;
+    background-position: 10px 10px;
+    padding-left: 25px;
+}
+
+input[type=text]::placeholder {
+    color: white;
+    margin: auto;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    /* Add some spacing between input containers */
+}
+
+.input-container label {
+    text-align: center;
+    /* Center the label text */
+    margin-bottom: 5px;
+    /* Add some spacing between label and input */
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .dropdown-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.centered-label {
+    display: flex;
+    justify-content: center;
+}
+
+.distance-label {
+    display: flex;
+    align-items: center;
+}
+
+.distance-label p {
+    margin-left: 5px;
+    /* Adjust the margin as needed */
 }
 
 @font-face {
@@ -35,9 +103,15 @@ button {
     /* Disable pointer events */
 }
 
-.long-slider input[type=range] {
+.long-slider {
     width: 80%;
+    margin: 0 auto;
+}
+
+.long-slider input[type=range] {
+    width: 100%;
     /* Adjust the width as needed */
+
 }
 
 .slider-container {
@@ -59,8 +133,75 @@ button {
 .img-logo {
     width: 512px;
     height: 512px;
-    background-image:url(../img/Designer.png);
+    background-image: url(../img/Designer2.png);
     background-repeat: no-repeat;
     background-size: 100%;
-    
+}
+
+.custom-select {
+    min-width: 350px;
+    /* Adjust the minimum width as needed */
+    width: 30%;
+    /* Adjust the width as needed */
+    margin: 0 auto;
+    /* Center horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 0.675em 4em 0.675em 1em;
+    /* Adjust the padding as needed */
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.about-section {
+    text-align: center;
+    /* Center align the content */
+    max-width: 800px;
+    /* Set maximum width for the about section */
+    margin: 0 auto;
+    /* Center the about section horizontally */
+    padding: 20px;
+    /* Add some padding for spacing */
+}
+
+.about-section h2 {
+    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    /* Adjust the value as needed */
+    /* Adjust the font size as needed */
+}
+
+.about-section p {
+    text-align: left;
+    /* Align the text to the left */
+    margin-top: 10px;
+    /* Add some top margin for spacing */
+}
+
+.about-section p {
+    font-size: 20px;
+    /* Adjust the font size as needed */
+    text-align: left;
+    /* Align the text to the left */
+    margin-top: 10px;
+    /* Add some top margin for spacing */
+}
+
+
+li {
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
 }

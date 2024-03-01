@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="img-logo"></div>
     <title>Random Restaurant Generator</title>
     <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet" />
 </head>
@@ -11,18 +12,21 @@
 <body onload="restoreFormInputs(); toggleTextBox()">
     <h1>Random Restaurant Generator</h1>
     <form action="/restaurant">
-        <div>
+        <div class="input-container">
+            <label for location>Where are you looking for a restaurant? (enter address, city, or use current
+                location)</label>
             <input type="text" name="Location" id="location" placeholder="Enter Location" />
         </div>
-        <div>
+        <div class="input-container">
+            <label for Keyword>Are you looking for a specific type of food? (Optional)</label>
             <input type="text" name="Keyword" id="keyword" placeholder="Keyword (Optional)" />
         </div>
-        <div>
+        <div class="checkbox-container">
             <input type="checkbox" id="useCurrentLocation" onchange="toggleTextBox()">
             <label for="useCurrentLocation">Use Current Location</label>
         </div>
-        <div>
-            <label for="price">Price Preference:</label>
+        <div class="custom-select">
+            <label for="price">Price Preference </label>
             <select name="Price" id="price">
                 <option value="">Any</option>
                 <option value="Cheap">Cheap</option>
@@ -40,8 +44,13 @@
                 <option value="25">25</option>
                 <option value="30">30</option>
             </datalist>
-            <label for="fader">Distance </label>
-            <p id="rangeValue">5</p>
+            <div class="centered-label">
+                <label for="fader" class="distance-label">
+                    Distance:
+                    <p id="rangeValue">5</p>
+                </label>
+            </div>
+
         </div>
         <button type="submit" onclick="saveFormInputs()">Generate</button>
     </form>
@@ -51,7 +60,52 @@
     <p>Location: {{ location }}</p>
     <p><a href="http://maps.google.com/?q={{ title }} {{ location }}" target="_blank">Google Maps</a></p>
     <a href="http://maps.apple.com/?q={{ location }} {{ title }}" target="_blank">Apple Maps</a>
+    <!-- About Section -->
+    <div class="about-section">
+        <h2>What is Random Restaurant Generator?</h2>
+        <p>This tool allows you to generate a random restaurant based on your location. You can also search for specific
+            types of food.
+            You can also filter by price and distance. It can be hard to choose a restaurant sometimes so I made it
+            easier for you!
+        </p>
+        <h2>Tips</h2>
+        <p>Here are some tips for using the tool:
+        <ul>
+            <li>The generator will generate restaurants based on your input. Looking for a specific type of food, like
+                vegan food or Chinese food? Make sure to input the type in the type input box. </li>
+            <li>Not happy with the restaurant that was generated? There’s no limit on how many times you can hit the
+                generate button. Continue to hit generate until you get a restaurant that catches your eye. </li>
+            <li>Make sure you select a price preference.</li>
+            <li>Cycling through a small handful of restaurants each time you generate? We can only pick restaurants from
+                the list of restaurants available that meet your criteria. If variety is low, you can get more
+                suggestions by increasing your max driving distance, picking a broader food category, or removing the
+                type of food category altogether. </li>
+        </ul>
+            </p>
+            <h2>Why is it hard to pick a place to eat?</h2>
+            <p>Having numerous options can be beneficial, but an excessive amount can lead to choice overload. This
+                phenomenon often results in decision-making challenges, reduced satisfaction, decreased confidence in
+                our
+                choices, and an increased likelihood of experiencing regret afterward.
+                While the pandemic has limited our dining options by forcing many restaurants to close, there are still
+                plenty of establishments available.</p>
+            <p>
+                Having numerous options can be beneficial, but an excessive amount can lead to choice overload. This
+                phenomenon often results in decision-making challenges, reduced satisfaction, decreased confidence in
+                our
+                choices, and an increased likelihood of experiencing regret afterward.
 
+                While the pandemic has limited our dining options by forcing many restaurants to close, there are still
+                plenty of establishments available. Despite the abundance of choices, the pressure to select a
+                satisfactory
+                meal persists. This combination of plentiful options and the desire for a satisfying dining experience
+                can
+                significantly complicate decision-making, even for seemingly trivial choices like selecting a restaurant
+                for
+                your next meal.</p>
+
+
+    </div>
     <script>
         function updateRangeValue(slider) {
             var optionValues = Array.from(slider.list.options).map(option => parseFloat(option.value));
@@ -121,6 +175,16 @@
             }
             return "";
         }
+        function clearAllCookies() {
+            var cookies = document.cookie.split("; ");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+            }
+        }
+
     </script>
 
 </body>
