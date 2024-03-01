@@ -71,41 +71,39 @@
         <h2>Tips</h2>
         <p>Here are some tips for using the tool:
         <ul>
-            <li>The generator will generate restaurants based on your input. Looking for a specific type of food, like
-                vegan food or Chinese food? Make sure to input the type in the type input box. </li>
-            <li>Not happy with the restaurant that was generated? There’s no limit on how many times you can hit the
-                generate button. Continue to hit generate until you get a restaurant that catches your eye. </li>
-            <li>Make sure you select a price preference.</li>
-            <li>Cycling through a small handful of restaurants each time you generate? We can only pick restaurants from
-                the list of restaurants available that meet your criteria. If variety is low, you can get more
-                suggestions by increasing your max driving distance, picking a broader food category, or removing the
-                type of food category altogether. </li>
+            <li>The generator generates restaurants based on your input. Searching for a particular cuisine, such as
+                vegan or Chinese food? Remember to enter the type in the designated input box. </li>
+            <li>Unsatisfied with the restaurant suggested? Feel free to hit the generate button as many times as you
+                like. Keep generating until you find a restaurant that piques your interest. </li>
+            <li>Ensure that you choose a price preference before proceeding.</li>
+            <li>If you find yourself cycling through only a few restaurants with each generation, it may be because we
+                can only select from establishments that match your specified criteria. To diversify your options,
+                consider increasing the maximum driving distance, selecting a broader food category, or omitting the
+                food category altogether.
+            </li>
         </ul>
-            </p>
-            <h2>Why is it hard to pick a place to eat?</h2>
-            <p>Having numerous options can be beneficial, but an excessive amount can lead to choice overload. This
-                phenomenon often results in decision-making challenges, reduced satisfaction, decreased confidence in
-                our
-                choices, and an increased likelihood of experiencing regret afterward.
-                While the pandemic has limited our dining options by forcing many restaurants to close, there are still
-                plenty of establishments available.</p>
-            <p>
-                Having numerous options can be beneficial, but an excessive amount can lead to choice overload. This
-                phenomenon often results in decision-making challenges, reduced satisfaction, decreased confidence in
-                our
-                choices, and an increased likelihood of experiencing regret afterward.
-
-                While the pandemic has limited our dining options by forcing many restaurants to close, there are still
-                plenty of establishments available. Despite the abundance of choices, the pressure to select a
-                satisfactory
-                meal persists. This combination of plentiful options and the desire for a satisfying dining experience
-                can
-                significantly complicate decision-making, even for seemingly trivial choices like selecting a restaurant
-                for
-                your next meal.</p>
-
-
+        </p>
+        <h2>Why is it hard to pick a place to eat?</h2>
+        <p>While having a variety of options can be advantageous, an overwhelming abundance of choices can lead to
+            decision fatigue. This can manifest as difficulties in making decisions, lower satisfaction with our
+            choices, reduced confidence in our decisions, and a higher chance of experiencing regret later on. Although
+            the pandemic has significantly reduced the number of dining options due to restaurant closures, there are
+            still numerous establishments to choose from.</p>
+        <p>
+            Even with a wealth of options available, the pressure to find a satisfying meal remains. This mix of
+            plentiful choices and the quest for an enjoyable dining experience can complicate decision-making, even when
+            it comes to seemingly minor decisions such as choosing a restaurant for your upcoming meal.</p>
+        <h2>How it works</h2>
+        <p>This website is built using python with the Flask framework. I am using the Google Maps API to get the
+            location
+            and information about the restaurants. The location comes from HTML geolocation. It also uses cookies to
+            save your inputs.</p>
+        <h2>Thank you!</h2>
+        <p>Thank you for taking the time to look at my website. I made this to practice my web my web development
+            skills.
+        </p>
     </div>
+
     <script>
         function updateRangeValue(slider) {
             var optionValues = Array.from(slider.list.options).map(option => parseFloat(option.value));
