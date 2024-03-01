@@ -8,7 +8,7 @@
     <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet" />
 </head>
 
-<body onload="restoreFormInputs(); toggleTextBox()">
+<body onload="clearLocalStorage(); toggleTextBox()">
     <h1>Random Restaurant Generator</h1>
     <form action="/restaurant">
         <div>
@@ -24,7 +24,7 @@
         <div>
             <label for="price">Price Preference:</label>
             <select name="Price" id="price">
-                <option value="">None</option>
+                <option value="">Any</option>
                 <option value="1">Inexpensive: $0 - $10</option>
                 <option value="2">Moderate: $11 - $30</option>
                 <option value="3">Expensive: $31 - 60</option>
@@ -86,23 +86,10 @@
                 }
             });
         }
-
-        function restoreFormInputs() {
-            var inputsToRestore = ['location', 'keyword', 'price', 'radius', 'useCurrentLocation'];
-            inputsToRestore.forEach(function (inputId) {
-                var storedValue = localStorage.getItem(inputId);
-                if (storedValue !== null) {
-                    var inputElement = document.getElementById(inputId);
-                    if (inputElement.type === 'checkbox') {
-                        inputElement.checked = (storedValue === "true");
-                    } else {
-                        inputElement.value = storedValue;
-                    }
-                }
-            });
-            var slider = document.getElementById('radius');
-            var initialValue = slider.value; // Get initial value of the slider
-            document.getElementById('rangeValue').innerText = initialValue; // Set initial value of the rangeValue
+        
+        // Function to clear localStorage
+        function clearLocalStorage() {
+            localStorage.clear();
         }
         
         window.addEventListener('beforeunload', saveFormInputs); // Save form inputs before unloading the page
