@@ -14,8 +14,13 @@ def get_restaurant():
     location = request.args.get('Location')  
     radius_in_miles = int(request.args.get('Radius'))
     radius = miles_to_meters(radius_in_miles)
-    keyword = request.args.get('Keyword')  # Get the keyword from the request
-    restaurants = get_restaurants(location, radius, keyword=keyword)  # Pass the keyword to the get_restaurants function
+    keyword = request.args.get('Keyword')
+    price_preference = request.args.get('Price')  # Get the price preference from the request
+    if price_preference:
+        price_preference = int(price_preference)
+    else:
+        price_preference = None
+    restaurants = get_restaurants(location, radius, keyword=keyword, price=price_preference)  # Pass the price preference to the get_restaurants function
     random_restaurant_name, rating, restaurant_location = pick_random_restaurant(restaurants)
     return render_template(
         "restaurants.html",

@@ -28,7 +28,7 @@ def get_coordinates(location):
         print("Error getting coordinates:", data.get("error_message", "Unknown error"))
         return None
 
-def get_restaurants(location, radius, keyword=None):
+def get_restaurants(location, radius, keyword=None, price=None):
     # Get coordinates from location name
     coordinates = get_coordinates(location)
     if coordinates is None:
@@ -44,6 +44,10 @@ def get_restaurants(location, radius, keyword=None):
 
     if keyword:
         params["keyword"] = keyword
+    
+    if price is not None:
+        params["minprice"] = price
+        params["maxprice"] = price
 
     response = requests.get(url, params=params)
     data = response.json()
@@ -73,7 +77,13 @@ if __name__ == "__main__":
     radius = miles_to_meters(int(input()))
     print("Enter a keyword:")
     keyword = input()
-    name, rating, location = pick_random_restaurant(get_restaurants(location, radius, keyword))
+    print("Enter your price preference (0: Free, 1: Inexpensive, 2: Moderate, 3: Expensive, 4: Very Expensive, or press Enter for all):")
+    price_preference = input()
+    if price_preference:
+        price_preference = int(price_preference)
+    else:
+        price_preference = None
+    name, rating, location = pick_random_restaurant(get_restaurants(location, radius, keyword, price_preference))
     print("Random Restaurant:")
     print("Name:", name)
     print("Rating:", rating)
