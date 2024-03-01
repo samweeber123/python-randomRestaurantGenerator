@@ -8,7 +8,7 @@
     <link href="{{ url_for('static', filename='styles/styles.css') }}" rel="stylesheet" />
 </head>
 
-<body onload="clearLocalStorage(); toggleTextBox()">
+<body onload="clearAllCookies(); toggleTextBox()">
     <h1>Random Restaurant Generator</h1>
     <form action="/restaurant">
         <div>
@@ -45,9 +45,8 @@
             <label for="fader">Distance </label>
             <p id="rangeValue">5</p>
         </div>
-        <button type="submit">Generate</button>
+        <button type="submit" onclick="saveFormInputs()">Generate</button>
     </form>
-
     <script>
         function updateRangeValue(slider) {
             var optionValues = Array.from(slider.list.options).map(option => parseFloat(option.value));
@@ -56,7 +55,6 @@
             });
             slider.value = nearestValue;
             document.getElementById('rangeValue').innerText = nearestValue;
-            saveFormInputs(); // Save form inputs after updating slider value
         }
 
         function toggleTextBox() {
@@ -72,7 +70,6 @@
             } else {
                 locationInput.classList.remove('readonly-input'); // Remove the CSS class
             }
-            saveFormInputs(); // Save form inputs after updating checkbox state
         }
 
         function saveFormInputs() {
@@ -80,19 +77,55 @@
             inputsToSave.forEach(function (inputId) {
                 var inputElement = document.getElementById(inputId);
                 if (inputElement.type === 'checkbox') {
-                    localStorage.setItem(inputId, inputElement.checked);
+                    setCookie(inputId, inputElement.checked);
                 } else {
-                    localStorage.setItem(inputId, inputElement.value);
+                    setCookie(inputId, inputElement.value);
                 }
             });
         }
-        
-        // Function to clear localStorage
-        function clearLocalStorage() {
-            localStorage.clear();
+
+        function restoreFormInputs() {
+            var inputsToRestore = ['location', 'keyword', 'price', 'radius', 'useCurrentLocation'];
+            inputsToRestore.forEach(function (inputId) {
+                var storedValue = getCookie(inputId);
+                if (storedValue !== "") {
+                    var inputElement = document.getElementById(inputId);
+                    if (inputElement.type === 'checkbox') {
+                        inputElement.checked = (storedValue === "true");
+                    } else {
+                        inputElement.value = storedValue;
+                    }
+                }
+            });
+            var slider = document.getElementById('radius');
+            var initialValue = slider.value; // Get initial value of the slider
+            document.getElementById('rangeValue').innerText = initialValue; // Set initial value of the rangeValue
         }
-        
-        window.addEventListener('beforeunload', saveFormInputs); // Save form inputs before unloading the page
+
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + ";path=/";
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return "";
+        }
+        function clearAllCookies() {
+            var cookies = document.cookie.split("; ");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+            }
+        }
+
     </script>
 
 </body>
